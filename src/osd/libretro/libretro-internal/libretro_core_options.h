@@ -472,7 +472,12 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "cropped",  "Cropped" },
          { NULL, NULL },
       },
+#ifdef __PROSPERO__
+      /* The PS5 draws MAME's output at a fixed high resolution (below): vector games are drawn at it. */
+      "enabled"
+#else
       "disabled"
+#endif
    },
    {
       CORE_NAME "_altres",
@@ -502,7 +507,12 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "3840x2160", NULL },
          { NULL, NULL },
       },
+#ifdef __PROSPERO__
+      /* 4K, the highest the alternate renderer offers. */
+      "3840x2160"
+#else
       "640x480"
+#endif
    },
    {
       CORE_NAME "_cpu_overclock",
