@@ -81,15 +81,20 @@ configuration { "osx*" }
 		MAME_DIR .. "3rdparty/bx/include/compat/osx",
 	}
 
-configuration { "freebsd" }
-	includedirs {
-		MAME_DIR .. "3rdparty/bx/include/compat/freebsd",
-	}
+-- bx's BSD compatibility headers are for BGFX. Their signal.h is sys/signal.h,
+-- without the functions, which the network output module (asio) needs; a build
+-- without BGFX (NO_USE_BGFX=1) has no use for them.
+if _OPTIONS["NO_USE_BGFX"]~="1" then
+	configuration { "freebsd" }
+		includedirs {
+			MAME_DIR .. "3rdparty/bx/include/compat/freebsd",
+		}
 
-configuration { "netbsd" }
-	includedirs {
-		MAME_DIR .. "3rdparty/bx/include/compat/freebsd",
-	}
+	configuration { "netbsd" }
+		includedirs {
+			MAME_DIR .. "3rdparty/bx/include/compat/freebsd",
+		}
+end
 
 configuration { }
 
