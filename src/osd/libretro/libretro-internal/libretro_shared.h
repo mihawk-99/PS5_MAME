@@ -109,6 +109,10 @@ extern char joystick_deadzone[8];
 extern char joystick_saturation[8];
 extern char joystick_threshold[8];
 extern char alternate_renderer;
+extern char alternate_renderer_vector;
+extern char vector_screen;
+extern int altres_width;
+extern int altres_height;
 
 extern int fb_width;
 extern int fb_height;

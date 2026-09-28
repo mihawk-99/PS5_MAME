@@ -492,6 +492,13 @@ static void check_variables(void)
       if (!strcmp(var.value, "cropped"))
          alternate_renderer = 2;
 
+      /* Vector screens only: cropped for a machine with a vector screen, which
+       * the window finds when the machine starts, and the native renderer for
+       * any other. */
+      alternate_renderer_vector = !strcmp(var.value, "vector");
+      if (alternate_renderer_vector)
+         alternate_renderer = vector_screen ? 2 : 0;
+
       if (alternate_renderer != alternate_renderer_prev)
          video_changed = VIDEO_CHANGED_GEOMETRY;
    }
@@ -500,6 +507,9 @@ static void check_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      /* Kept for the window, which applies it once it finds a vector screen. */
+      sscanf(var.value, "%dx%d", &altres_width, &altres_height);
+
       if (alternate_renderer)
       {
          char *pch;

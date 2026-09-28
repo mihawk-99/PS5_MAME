@@ -254,6 +254,36 @@ int retro_window_info::window_init()
 
 	result = complete_create();
 
+	// the alternate renderer's "vector" mode: cropped at its resolution for a
+	// machine with a vector screen, the native renderer for any other
+	if (alternate_renderer_vector)
+	{
+		vector_screen = 0;
+		for (const screen_device &screen : screen_device_enumerator(machine().root_device()))
+			if (screen.screen_type() == SCREEN_TYPE_VECTOR)
+				vector_screen = 1;
+		alternate_renderer = vector_screen ? 2 : 0;
+		if (vector_screen)
+		{
+			retro_aspect = target()->current_view().effective_aspect();
+			if (target()->orientation() & ORIENTATION_SWAP_XY)
+				retro_aspect = 1.0 / retro_aspect;
+			fb_width  = altres_width;
+			fb_height = altres_height;
+			if (fb_width > fb_height)
+				fb_width  = fb_height * retro_aspect;
+			else
+				fb_height = fb_width / retro_aspect;
+			video_changed = VIDEO_CHANGED_GEOMETRY;
+			if (fb_width > max_width || fb_height > max_height)
+			{
+				max_width     = fb_width;
+				max_height    = fb_height;
+				video_changed = VIDEO_CHANGED_AV_INFO;
+			}
+		}
+	}
+
 	// store more reasonable geometry for SVG screens
 	const screen_device *screen = screen_device_enumerator(machine().root_device()).byindex(index());
 	if ((screen != nullptr) && (screen->screen_type() == SCREEN_TYPE_SVG))

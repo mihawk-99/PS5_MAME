@@ -470,11 +470,15 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "disabled", NULL },
          { "enabled",  NULL },
          { "cropped",  "Cropped" },
+         { "vector",   "Vector Screens Only" },
          { NULL, NULL },
       },
 #ifdef __PROSPERO__
-      /* The PS5 draws MAME's output at a fixed high resolution (below): vector games are drawn at it. */
-      "enabled"
+      /* The PS5 draws vector games at the resolution below, their lines drawn at
+       * it; a raster game gains nothing from it (MAME scales its bitmap on the
+       * CPU, which cost Metal Slug 3 a third of its speed at 4K), so it keeps
+       * its native size and the frontend scales it on the GPU. */
+      "vector"
 #else
       "disabled"
 #endif
@@ -508,7 +512,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { NULL, NULL },
       },
 #ifdef __PROSPERO__
-      /* 4K, the highest the alternate renderer offers. */
+      /* 4K, the highest the alternate renderer offers: a vector game's lines at 2160 rows. */
       "3840x2160"
 #else
       "640x480"

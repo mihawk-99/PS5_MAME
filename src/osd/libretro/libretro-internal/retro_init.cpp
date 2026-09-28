@@ -70,6 +70,10 @@ char joystick_deadzone[8];
 char joystick_saturation[8];
 char joystick_threshold[8];
 char alternate_renderer = 0;
+char alternate_renderer_vector = 0;
+char vector_screen = 0;
+int altres_width = 640;
+int altres_height = 480;
 
 // emu flags
 static bool arcade = false;
