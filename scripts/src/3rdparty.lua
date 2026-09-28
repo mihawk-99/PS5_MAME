@@ -203,6 +203,7 @@ end
 		"XXH_NAMESPACE=ZSTD_",
 		"DEBUGLEVEL=0",
 		"ZSTD_DISABLE_ASM",
+		"ZSTD_TRACE=0", -- no trace hooks: weak references a PS5 title cannot bind
 	}
 
 	files {
